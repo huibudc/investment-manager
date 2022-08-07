@@ -6,8 +6,6 @@ import model.Foundation;
 import model.InvestFoundation;
 import model.MarketFoundation;
 import service.CrawlerService;
-
-import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
