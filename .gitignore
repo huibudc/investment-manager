@@ -1,2 +1,3 @@
 ./target/
-./src/main/html/investment-managerment-ui/node_modules/
+/src/main/html/investment-managerment-ui/node_modules/
+/target/
