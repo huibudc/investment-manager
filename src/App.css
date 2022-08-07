@@ -1,38 +1,64 @@
-.App {
+table,tbody {
+  display: block;
+  height: auto;
+  border: 0;
+  border-spacing: 0;
+  border-collapse: collapse;
+  cursor: default;
+}
+
+
+tbody {
+  overflow-y: scroll;
+}
+
+table thead,
+tbody tr {
+  display: table;
+  width: calc(100% - 1em);
+  table-layout: fixed;
+}
+
+table thead {
+  width: calc(100% - 2em);
+}
+
+.red {
+  color: red;  
+}
+
+.greenyellow {
+  color: green;  
+}
+
+.w70 {
+  width: 70px;;
+}
+
+.w170 {
+  width: 170px;;
+}
+
+.w100 {
+  width: 100px;;
+}
+
+.w250 {
+  width: 250px;;
+}
+
+table thead {
+  background: 'gainsboro';
+}
+
+table tbody td, table thead tr td {
+  border: 1px solid;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+tr:nth-child(even) {
+  background-color: #eee;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+tr:nth-child(odd) {
+  background-color: #fff;
+}  
