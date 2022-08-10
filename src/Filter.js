@@ -8,7 +8,7 @@ export default function Filter({
   return (
     // eslint-disable-next-line react/jsx-filename-extension
     <div>
-      <babel>
+      <label>
         <span>代码或名称:</span>
         <input
           style={{
@@ -18,7 +18,7 @@ export default function Filter({
           value={filterValue}
           placeholder="请输入代码或名称"
         />
-      </babel>
+      </label>
 
       <label>
         <span>警告:</span>

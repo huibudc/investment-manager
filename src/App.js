@@ -4,6 +4,7 @@ import './App.css';
 import FoundationData from './FoundationData';
 import FoundationInvestment from './FoundationInvestment';
 import Filter from './Filter';
+import FavouriteFoundations from './FavouriteFoundations';
 
 const axios = require('axios');
 
@@ -12,6 +13,7 @@ export default function App() {
   const [foundationInvestment, setFoundationInvestment] = React.useState([]);
   const [alertChecked, setAlertChecked] = React.useState(false);
   const [foundationDatafilterValue, setFoundationDatafilterValue] = React.useState('');
+  const [favouriteFoundations, setFavouriteFoundations] = React.useState([]);
 
   React.useEffect(() => () => {
     axios.get('http://localhost:8080/investment-management/foundation-data')
@@ -21,6 +23,11 @@ export default function App() {
     axios.get('http://localhost:8080/investment-management/foundation-investment')
       .then((res) => {
         setFoundationInvestment(res.data);
+      });
+
+    axios.get('http://localhost:8080/investment-management/favourite-foundations')
+      .then((res) => {
+        setFavouriteFoundations(res.data);
       });
   }, []);
   const foundationDataFilter = (filter) => {
@@ -38,14 +45,21 @@ export default function App() {
   return (
     <div>
       <div>
-        <h1>投资基金</h1>
+        <h1>关注基金</h1>
+        <button type="button" className="collapse-button">收起!</button>
+        <FavouriteFoundations data={favouriteFoundations} />
+      </div>
+      <div>
+        <div style={{ display: 'flex' }}>
+          <p>投资基金</p>
+          <button type="button" className="collapse-button">收起!</button>
+        </div>
         <FoundationInvestment data={foundationInvestment} />
       </div>
       <div style={{
-        'margin-top': '20px',
+        marginTop: '20px',
       }}
       >
-        <h1>基金数据</h1>
         <Filter
           filterValue={foundationDatafilterValue}
           onChange={(e) => { setFoundationDatafilterValue(e.target.value); }}
@@ -56,6 +70,7 @@ export default function App() {
           data={foundationDataFilter(foundationDatafilterValue)}
         />
       </div>
+      <div style={{ marginTop: '50px' }} />
     </div>
   );
 }
