@@ -1,25 +1,11 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import * as React from 'react';
 
-export default function Filter({
-  // eslint-disable-next-line react/prop-types
-  filterValue, onChange, alertChecked, alertOnChecked,
-}) {
+// eslint-disable-next-line react/prop-types
+export default function Filter({ alertChecked, alertOnChecked }) {
   return (
     // eslint-disable-next-line react/jsx-filename-extension
     <div>
-      <label>
-        <span>代码或名称:</span>
-        <input
-          style={{
-            margin: '5px',
-          }}
-          onChange={onChange}
-          value={filterValue}
-          placeholder="请输入代码或名称"
-        />
-      </label>
-
       <label>
         <span>警告:</span>
         <input type="checkbox" onChange={alertOnChecked} checked={alertChecked} key={alertChecked} />

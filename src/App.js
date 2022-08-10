@@ -12,8 +12,8 @@ export default function App() {
   const [foundationData, setFoundationData] = React.useState([]);
   const [foundationInvestment, setFoundationInvestment] = React.useState([]);
   const [alertChecked, setAlertChecked] = React.useState(false);
-  const [foundationDatafilterValue, setFoundationDatafilterValue] = React.useState('');
   const [favouriteFoundations, setFavouriteFoundations] = React.useState([]);
+  const [foundationFilter, setFoundationFilter] = React.useState('');
 
   React.useEffect(() => () => {
     axios.get('http://localhost:8080/investment-management/foundation-data')
@@ -42,32 +42,53 @@ export default function App() {
     return displayData;
   };
 
+  const commenFilter = (filter, data) => {
+    let displayData = data.map((it) => it);
+    if (filter !== null && filter !== undefined && filter.length > 0) {
+      // eslint-disable-next-line max-len
+      displayData = displayData.filter((it) => it.name.indexOf(filter) > -1 || it.code.indexOf(filter) > -1);
+    }
+    return displayData;
+  };
+
   return (
     <div>
       <div>
-        <h1>关注基金</h1>
-        <button type="button" className="collapse-button">收起!</button>
-        <FavouriteFoundations data={favouriteFoundations} />
+        <span>代码或名称:</span>
+        <input
+          id="innerIpt2"
+          style={{
+            margin: '5px',
+          }}
+          onChange={(e) => setFoundationFilter(e.target.value)}
+          value={foundationFilter}
+          placeholder="请输入代码或名称"
+        />
+      </div>
+      <div>
+        <div style={{ display: 'flex' }}>
+          <p>关注基金</p>
+          <button type="button" className="collapse-button">收起!</button>
+        </div>
+        <FavouriteFoundations data={commenFilter(foundationFilter, favouriteFoundations)} />
       </div>
       <div>
         <div style={{ display: 'flex' }}>
           <p>投资基金</p>
           <button type="button" className="collapse-button">收起!</button>
         </div>
-        <FoundationInvestment data={foundationInvestment} />
+        <FoundationInvestment data={commenFilter(foundationFilter, foundationInvestment)} />
       </div>
       <div style={{
         marginTop: '20px',
       }}
       >
         <Filter
-          filterValue={foundationDatafilterValue}
-          onChange={(e) => { setFoundationDatafilterValue(e.target.value); }}
           checkedAllert={alertChecked}
           alertOnChecked={() => { setAlertChecked(!alertChecked); }}
         />
         <FoundationData
-          data={foundationDataFilter(foundationDatafilterValue)}
+          data={foundationDataFilter(foundationFilter)}
         />
       </div>
       <div style={{ marginTop: '50px' }} />
