@@ -25,36 +25,89 @@ public class FoundationInvestmentDao {
     }
 
     public boolean add(FoundationInvestment foundationInvestment) {
+//        String sql = """
+//                    INSERT INTO foundation_investment
+//                (`date`, code, name, init_amount, init_profit, daily_invest_amount, commission, total_amount, total_profit, is_enabled)
+//                 VALUES (?,
+//                           ?,
+//                           ?,
+//                           ?,
+//                           ?,
+//                           ?,
+//                           ?,
+//                           ?,
+//                           ?,
+//                           ?)
+//                """;
+//        try (Connection connection = DbUtils.connection();
+//             PreparedStatement statement = connection.prepareStatement(sql)) {
+//            statement.setString(1, foundationInvestment.getDate());
+//            statement.setString(2, foundationInvestment.getCode());
+//            statement.setString(3, foundationInvestment.getName());
+//            statement.setFloat(4, foundationInvestment.getInitAmount().floatValue());
+//            statement.setFloat(5, foundationInvestment.getInitProfit().floatValue());
+//            statement.setFloat(6, foundationInvestment.getDailyInvestAmount().floatValue());
+//            statement.setFloat(7, foundationInvestment.getCommission().floatValue());
+//            statement.setFloat(8, foundationInvestment.getTotalAmount().floatValue());
+//            statement.setFloat(9, foundationInvestment.getTotalProfit().floatValue());
+//            statement.setInt(10, foundationInvestment.isEnabled() ? 1 : 0);
+//            return statement.execute(sql);
+
         String sql = """
-                        INSERT INTO foundation_investment(
-                        date, code, name, init_amount,  init_profit, daily_invest_amount , commission, total_amount, total_profit, is_enabled) VALUES (?,?,?,?,?,?,?,?,?,?,)  
-                    """;
+                    INSERT INTO foundation_investment
+                (`date`, code, name, init_amount, init_profit, daily_invest_amount, commission, total_amount, total_profit, is_enabled)
+                 VALUES (%s,
+                           %s,
+                           %s,
+                           %s,
+                           %s,
+                           %s,
+                           %s,
+                           %s,
+                           %s,
+                           %s)
+                """;
         try (Connection connection = DbUtils.connection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, foundationInvestment.getDate());
-            statement.setString(2, foundationInvestment.getCode());
-            statement.setString(3, foundationInvestment.getName());
-            statement.setDouble(4, foundationInvestment.getInitAmount());
-            statement.setDouble(5, foundationInvestment.getInitProfit());
-            statement.setDouble(6, foundationInvestment.getDailyInvestAmount());
-            statement.setDouble(7, foundationInvestment.getCommission());
-            statement.setDouble(8, foundationInvestment.getTotalAmount());
-            statement.setDouble(9, foundationInvestment.getTotalProfit());
-            statement.setBoolean(10, foundationInvestment.isEnabled());
-            return statement.execute(sql);
+            String formatted = sql.formatted("'" + foundationInvestment.getDate() + "'",
+                    "'" + foundationInvestment.getCode() + "'",
+                    "'" + foundationInvestment.getName() + "'",
+                    foundationInvestment.getInitAmount(),
+                    foundationInvestment.getInitProfit(),
+                    foundationInvestment.getDailyInvestAmount(),
+                    foundationInvestment.getCommission(),
+                    foundationInvestment.getTotalAmount(),
+                    foundationInvestment.getTotalProfit(),
+                    foundationInvestment.isEnabled() ? 1 : 0
+            );
+            System.out.println("formatted=" + formatted);
+            return statement.execute(formatted);
         } catch (Exception e) {
             e.printStackTrace();
             log.error(e.getMessage());
             return false;
         }
     }
+
+    public static void main(String[] args) {
+        try (Connection connection = DbUtils.connection();
+             Statement statement = connection.createStatement();) {
+            boolean execute = statement.execute("delete from foundation_investment where date = '2022-08-08'");
+            System.out.println(execute);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error(e.getMessage());
+        }
+
+    }
+
     public List<FoundationInvestment> latestFoundationInvestments() {
         String sql = """
-               select *
-               from
-               foundation_investment a
-               join (select code, max(date) date from foundation_investment group by code) b on a.code=b.code and a.date=b.date
-                """;
+                select *
+                from
+                foundation_investment a
+                join (select code, max(date) date from foundation_investment group by code) b on a.code=b.code and a.date=b.date
+                 """;
         List<FoundationInvestment> foundationInvestments = new ArrayList<>();
         try (Connection connection = DbUtils.connection();
              Statement statement = connection.createStatement();) {

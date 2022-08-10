@@ -46,7 +46,8 @@ public class FoundationInvestmentService {
                 Double actualGain = Double.parseDouble(item.getActualGain().split("%")[0].trim()) / 100;
                 Double todayBuyInAmount = dailyInvestAmount * (1-commission);
                 double todayTotalAmount = totalAmount + (totalAmount * actualGain) + todayBuyInAmount;
-                Double todayTotalProfit = todayTotalAmount + (totalAmount * actualGain);
+                Double initProfit = foundationInvestment.getInitProfit();
+                Double todayTotalProfit = initProfit + (totalProfit * actualGain);
                 foundationInvestment.setDate(today());
                 foundationInvestment.setTotalAmount(todayTotalAmount);
                 foundationInvestment.setTotalProfit(todayTotalProfit);

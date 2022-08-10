@@ -13,8 +13,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static utils.Utils.GSON;
 import static utils.Utils.convertToYYYY_MM_DD;
 
 
