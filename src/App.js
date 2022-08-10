@@ -14,7 +14,6 @@ export default function App() {
   const [alertChecked, setAlertChecked] = React.useState(false);
   const [favouriteFoundations, setFavouriteFoundations] = React.useState([]);
   const [foundationFilter, setFoundationFilter] = React.useState('');
-
   React.useEffect(() => () => {
     axios.get('http://localhost:8080/investment-management/foundation-data')
       .then((res) => {
