@@ -7,7 +7,7 @@ export default function Filter({ alertChecked, alertOnChecked }) {
     // eslint-disable-next-line react/jsx-filename-extension
     <div>
       <label>
-        <span>警告:</span>
+        <span>基金数据 警告:</span>
         <input type="checkbox" onChange={alertOnChecked} checked={alertChecked} key={alertChecked} />
       </label>
     </div>

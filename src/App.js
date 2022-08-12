@@ -14,6 +14,8 @@ export default function App() {
   const [alertChecked, setAlertChecked] = React.useState(false);
   const [favouriteFoundations, setFavouriteFoundations] = React.useState([]);
   const [foundationFilter, setFoundationFilter] = React.useState('');
+  const [shouldShowFavourite, setShouldShowFavourite] = React.useState(true);
+  const [shouldShowInvestment, setShouldShowInvestment] = React.useState(true);
 
   React.useEffect(() => () => {
     axios.get('http://localhost:8080/investment-management/foundation-data')
@@ -30,6 +32,7 @@ export default function App() {
         setFavouriteFoundations(res.data);
       });
   }, []);
+
   const foundationDataFilter = (filter) => {
     let displayData = foundationData.map((it) => it);
     if (filter !== null && filter !== undefined && filter.length > 0) {
@@ -53,7 +56,7 @@ export default function App() {
 
   return (
     <div>
-      <div>
+      <div style={{ position: 'fixed' }}>
         <span>代码或名称:</span>
         <input
           id="innerIpt2"
@@ -65,19 +68,25 @@ export default function App() {
           placeholder="请输入代码或名称"
         />
       </div>
+      <div>,</div>
       <div>
         <div style={{ display: 'flex' }}>
           <p>关注基金</p>
-          <button type="button" className="collapse-button">收起!</button>
+          <button type="button" className="collapse-button" onClick={() => setShouldShowFavourite(!shouldShowFavourite)}>收起!</button>
         </div>
-        <FavouriteFoundations data={commenFilter(foundationFilter, favouriteFoundations)} />
+        {shouldShowFavourite
+          ? <FavouriteFoundations data={commenFilter(foundationFilter, favouriteFoundations)} />
+          : null}
       </div>
       <div>
         <div style={{ display: 'flex' }}>
           <p>投资基金</p>
-          <button type="button" className="collapse-button">收起!</button>
+          <button type="button" className="collapse-button" onClick={() => setShouldShowInvestment(!shouldShowInvestment)}>收起!</button>
         </div>
-        <FoundationInvestment data={commenFilter(foundationFilter, foundationInvestment)} />
+        { shouldShowInvestment
+          ? <FoundationInvestment data={commenFilter(foundationFilter, foundationInvestment)} />
+          : null}
+
       </div>
       <div style={{
         marginTop: '20px',
