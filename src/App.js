@@ -68,7 +68,7 @@ export default function App() {
           placeholder="请输入代码或名称"
         />
       </div>
-      <div>, </div>
+      <div>,</div>
       <div>
         <div style={{ display: 'flex' }}>
           <p>关注基金</p>
