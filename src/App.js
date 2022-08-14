@@ -72,7 +72,7 @@ export default function App() {
       <div>
         <div style={{ display: 'flex' }}>
           <p>关注基金</p>
-          <button type="button" className="collapse-button" onClick={() => setShouldShowFavourite(!shouldShowFavourite)}>收起!</button>
+          <button type="button" className="collapse-button" onClick={() => setShouldShowFavourite(!shouldShowFavourite)}>{shouldShowFavourite ? '收起!' : '展开!'}</button>
         </div>
         {shouldShowFavourite
           ? <FavouriteFoundations data={commenFilter(foundationFilter, favouriteFoundations)} />
@@ -81,7 +81,7 @@ export default function App() {
       <div>
         <div style={{ display: 'flex' }}>
           <p>投资基金</p>
-          <button type="button" className="collapse-button" onClick={() => setShouldShowInvestment(!shouldShowInvestment)}>收起!</button>
+          <button type="button" className="collapse-button" onClick={() => setShouldShowInvestment(!shouldShowInvestment)}>{shouldShowInvestment ? '收起!' : '展开!'}</button>
         </div>
         { shouldShowInvestment
           ? <FoundationInvestment data={commenFilter(foundationFilter, foundationInvestment)} />
