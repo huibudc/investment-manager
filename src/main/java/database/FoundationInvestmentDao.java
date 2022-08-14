@@ -100,7 +100,6 @@ public class FoundationInvestmentDao {
         }
 
     }
-
     public List<FoundationInvestment> latestFoundationInvestments() {
         String sql = """
                 select *
@@ -132,7 +131,7 @@ public class FoundationInvestmentDao {
             Double dailyInvestAmount = resultSet.getDouble("daily_invest_amount");
             Double totalAmount = resultSet.getDouble("total_amount");
             Double totalProfit = resultSet.getDouble("total_profit");
-            Boolean isEnabled = resultSet.getBoolean("is_enabled");
+            boolean isEnabled = resultSet.getBoolean("is_enabled");
             FoundationInvestment foundationInvestment = new FoundationInvestment();
             foundationInvestment.setDate(date);
             foundationInvestment.setCode(code);

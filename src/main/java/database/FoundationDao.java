@@ -155,7 +155,6 @@ public class FoundationDao {
         foundation.setDate(date);
         foundation.setName(name);
         foundation.setType(type);
-        foundation.setDate(convertToYYYY_MM_DD(estimatedValue));
         foundation.setEstimatedValue(estimatedValue);
         foundation.setEstimatedGain(estimatedGain);
         foundation.setActualValue(actualValue);

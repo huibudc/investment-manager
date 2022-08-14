@@ -33,7 +33,6 @@ public class FoundationInvestmentService {
         if (DateUtils.isWeekendOrPublicHoliday()) {
             return foundationInvestments;
         }
-//        job.investedFoundationData(); // craw data from web and store into DB
         List<Foundation> foundations = foundationDao.latestFoundations();
         for (FoundationInvestment foundationInvestment : foundationInvestments) {
             Optional<Foundation> foundation = foundations.stream().filter(it -> it.getCode().equalsIgnoreCase(foundationInvestment.getCode())).findFirst();
