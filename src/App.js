@@ -83,10 +83,7 @@ export default function App() {
       <div style={{ position: 'fixed' }}>
         <span>
           <b>坚持, 不哭</b>
-          &#129315;&#129315; ==
-          {'>'}
-          {' '}
-          过滤:
+          &#129315;&#129315;
         </span>
         {selectOptionFn()}
       </div>
