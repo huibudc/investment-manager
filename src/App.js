@@ -5,6 +5,7 @@ import FoundationData from './FoundationData';
 import FoundationInvestment from './FoundationInvestment';
 import Filter from './Filter';
 import FavouriteFoundations from './FavouriteFoundations';
+import LineBarChart from './LineBarChart';
 
 const axios = require('axios');
 
@@ -82,6 +83,9 @@ export default function App() {
         <div style={{ display: 'flex' }}>
           <p>投资基金</p>
           <button type="button" className="collapse-button" onClick={() => setShouldShowInvestment(!shouldShowInvestment)}>{shouldShowInvestment ? '收起!' : '展开!'}</button>
+        </div>
+        <div>
+          <LineBarChart data={foundationInvestment} />
         </div>
         { shouldShowInvestment
           ? <FoundationInvestment data={commenFilter(foundationFilter, foundationInvestment)} />
