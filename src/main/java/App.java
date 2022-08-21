@@ -14,20 +14,23 @@ import static utils.Utils.GSON;
 public class App {
     private final FoundationDao foundationDao;
     private final FavouriteFoundationDao favouriteFoundationDao;
+    private final FoundationEnricher foundationEnricher;
     private final FoundationInvestmentService foundationInvestmentService;
 
-    public App(FoundationDao foundationDao, FavouriteFoundationDao favouriteFoundationDao, FoundationInvestmentService foundationInvestmentService) {
+    public App(FoundationDao foundationDao, FavouriteFoundationDao favouriteFoundationDao, FoundationEnricher foundationEnricher, FoundationInvestmentService foundationInvestmentService) {
         this.foundationDao = foundationDao;
         this.favouriteFoundationDao = favouriteFoundationDao;
+        this.foundationEnricher = foundationEnricher;
         this.foundationInvestmentService = foundationInvestmentService;
     }
 
     public static void main(String... args) throws Exception {
         FoundationDao dao = new FoundationDao();
+        FoundationEnricher foundationEnricher = new FoundationEnricher(dao);
         CrawlerService crawlerService = new CrawlerService();
         Job job = new Job(crawlerService, dao);
         FoundationInvestmentDao foundationInvestmentDao = new FoundationInvestmentDao();
-        new App(dao, new FavouriteFoundationDao(), new FoundationInvestmentService(job, foundationInvestmentDao, dao)).start();
+        new App(dao, new FavouriteFoundationDao(), foundationEnricher, new FoundationInvestmentService(job, foundationInvestmentDao, dao)).start();
     }
 
     private void start() throws Exception {
@@ -47,7 +50,7 @@ public class App {
                                         prefix("investment-management", chain -> {
                                             chain.files(fileHandlerSpec -> fileHandlerSpec.dir("web").indexFiles("index.html"));
                                             chain.prefix("foundation-data", foundation -> {
-                                                        foundation.get("", ctx -> ctx.getResponse().send(HttpHeaderConstants.JSON, GSON.toJson(FoundationEnricher.rankingFoundations(foundationDao.foundations()))));
+                                                        foundation.get("", ctx -> ctx.getResponse().send(HttpHeaderConstants.JSON, GSON.toJson(foundationEnricher.rankingFoundations(foundationDao.foundations()))));
                                                         foundation.get(":code", ctx -> {
                                                             String code = ctx.getPathTokens().get("code");
                                                             ctx.getResponse().send(HttpHeaderConstants.JSON, GSON.toJson(foundationDao.foundation(code)));

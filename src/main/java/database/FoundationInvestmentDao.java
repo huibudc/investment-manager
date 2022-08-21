@@ -6,8 +6,6 @@ import model.FoundationInvestment;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
-
 @Slf4j
 public class FoundationInvestmentDao {
     public List<FoundationInvestment> foundationInvestments() {
@@ -25,38 +23,17 @@ public class FoundationInvestmentDao {
     }
 
     public boolean add(FoundationInvestment foundationInvestment) {
-//        String sql = """
-//                    INSERT INTO foundation_investment
-//                (`date`, code, name, init_amount, init_profit, daily_invest_amount, commission, total_amount, total_profit, is_enabled)
-//                 VALUES (?,
-//                           ?,
-//                           ?,
-//                           ?,
-//                           ?,
-//                           ?,
-//                           ?,
-//                           ?,
-//                           ?,
-//                           ?)
-//                """;
-//        try (Connection connection = DbUtils.connection();
-//             PreparedStatement statement = connection.prepareStatement(sql)) {
-//            statement.setString(1, foundationInvestment.getDate());
-//            statement.setString(2, foundationInvestment.getCode());
-//            statement.setString(3, foundationInvestment.getName());
-//            statement.setFloat(4, foundationInvestment.getInitAmount().floatValue());
-//            statement.setFloat(5, foundationInvestment.getInitProfit().floatValue());
-//            statement.setFloat(6, foundationInvestment.getDailyInvestAmount().floatValue());
-//            statement.setFloat(7, foundationInvestment.getCommission().floatValue());
-//            statement.setFloat(8, foundationInvestment.getTotalAmount().floatValue());
-//            statement.setFloat(9, foundationInvestment.getTotalProfit().floatValue());
-//            statement.setInt(10, foundationInvestment.isEnabled() ? 1 : 0);
-//            return statement.execute(sql);
-
         String sql = """
                     INSERT INTO foundation_investment
-                (`date`, code, name, init_amount, init_profit, daily_invest_amount, commission, total_amount, total_profit, is_enabled)
+                (`date`, code, name, init_amount, init_profit, daily_invest_amount, commission, total_amount, total_profit, is_enabled
+                    ,isRankTop20WithinWeek, isRankTop20WithinMonth, isRankTop20ThreeMonth, isRankTop20SixMonth, shouldWarn
+                )
                  VALUES (%s,
+                           %s,
+                           %s,
+                           %s,
+                           %s,
+                           %s,
                            %s,
                            %s,
                            %s,
@@ -78,7 +55,12 @@ public class FoundationInvestmentDao {
                     foundationInvestment.getCommission(),
                     foundationInvestment.getTotalAmount(),
                     foundationInvestment.getTotalProfit(),
-                    foundationInvestment.isEnabled() ? 1 : 0
+                    foundationInvestment.isEnabled() ? 1 : 0,
+                    foundationInvestment.getRankTop20WithinWeek(),
+                    foundationInvestment.getRankTop20WithinMonth(),
+                    foundationInvestment.getRankTop20ThreeMonth(),
+                    foundationInvestment.getRankTop20SixMonth(),
+                    foundationInvestment.getShouldWarn()
             );
             System.out.println("formatted=" + formatted);
             return statement.execute(formatted);
@@ -132,9 +114,9 @@ public class FoundationInvestmentDao {
             Double dailyInvestAmount = resultSet.getDouble("daily_invest_amount");
             Double totalAmount = resultSet.getDouble("total_amount");
             Double totalProfit = resultSet.getDouble("total_profit");
-            Double profitRate = resultSet.getDouble("profit_rate");
+            double profitRate = resultSet.getDouble("profit_rate");
             String actualGain = resultSet.getString("actualGain");
-            Boolean isEnabled = resultSet.getBoolean("is_enabled");
+            boolean isEnabled = resultSet.getBoolean("is_enabled");
             FoundationInvestment foundationInvestment = new FoundationInvestment();
             foundationInvestment.setDate(date);
             foundationInvestment.setCode(code);

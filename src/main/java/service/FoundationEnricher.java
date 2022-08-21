@@ -1,5 +1,6 @@
 package service;
 
+import database.FoundationDao;
 import model.Foundation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,8 +12,13 @@ import static utils.Utils.GSON_PRETTY;
 
 public class FoundationEnricher {
     private final static Logger log = LoggerFactory.getLogger(CrawlerService.class);
+    private final FoundationDao foundationDao;
 
-    public static List<Foundation> rankingFoundations(List<Foundation> foundations) {
+    public FoundationEnricher(FoundationDao foundationDao) {
+        this.foundationDao = foundationDao;
+    }
+
+    public List<Foundation> rankingFoundations(List<Foundation> foundations) {
         for (Foundation foundation : foundations) {
             try {
                 foundation.setRankTop20WithinWeek(isTop20(foundation.getRankWithinWeek()));
@@ -29,6 +35,7 @@ public class FoundationEnricher {
                 log.info("Failed to handle all foundations from cache {}", GSON_PRETTY.toJson(foundation));
             }
         }
+        foundationDao.updateRanking(foundations);
         return foundations;
     }
 

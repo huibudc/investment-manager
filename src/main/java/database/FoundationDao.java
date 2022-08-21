@@ -145,17 +145,41 @@ public class FoundationDao {
         }
     }
 
-//    public List<String> dates() {
-//        try (Connection connection = DbUtils.connection();
-//             Statement statement = connection.createStatement();) {
-//            ResultSet resultSet = statement.executeQuery("select * from foundation where date=" + today());
-//            return resultSet.next();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            log.error(e.getMessage());
-//            return false;
-//        }
-//    }
+    public void updateRanking(List<Foundation> foundations) {
+        if (foundations == null || foundations.isEmpty()) {
+            return;
+        }
+        try (Connection connection = DbUtils.connection();
+             PreparedStatement statement = connection.prepareStatement("""
+                     update foundation
+                     set isRankTop20WithinWeek=?,
+                        isRankTop20WithinMonth=?,
+                        isRankTop20ThreeMonth=?,
+                      isRankTop20SixMonth=?,
+                      shouldWarn=?
+                     where code=? and date=?
+                     """)
+        ) {
+            foundations.forEach(it -> {
+                try {
+                    statement.setBoolean(1, it.getRankTop20WithinWeek());
+                    statement.setBoolean(2, it.getRankTop20WithinMonth());
+                    statement.setBoolean(3, it.getRankTop20ThreeMonth());
+                    statement.setBoolean(4, it.getRankTop20SixMonth());
+                    statement.setBoolean(5, it.getShouldWarn());
+                    statement.setString(6, it.getCode());
+                    statement.setString(7, it.getDate());
+                    statement.addBatch();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            statement.executeBatch();
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error(e.getMessage());
+        }
+    }
 
     private Foundation getFoundation(ResultSet resultSet) throws SQLException, ParseException {
         String code = resultSet.getString("code");

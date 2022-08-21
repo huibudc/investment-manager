@@ -57,6 +57,11 @@ public class FoundationInvestmentService {
                     foundationInvestment.setDate(today());
                     foundationInvestment.setTotalAmount(todayTotalAmount);
                     foundationInvestment.setTotalProfit(todayTotalProfit);
+                    foundationInvestment.setShouldWarn(item.getShouldWarn());
+                    foundationInvestment.setRankTop20WithinWeek(item.getRankTop20WithinWeek());
+                    foundationInvestment.setRankTop20WithinMonth(item.getRankTop20WithinMonth());
+                    foundationInvestment.setRankTop20ThreeMonth(item.getRankTop20ThreeMonth());
+                    foundationInvestment.setRankTop20SixMonth(item.getRankTop20SixMonth());
                     foundationInvestmentDao.add(foundationInvestment);
                 }
             }
