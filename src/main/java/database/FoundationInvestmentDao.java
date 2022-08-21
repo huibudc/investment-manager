@@ -14,7 +14,7 @@ public class FoundationInvestmentDao {
         List<FoundationInvestment> foundationInvestments = new ArrayList<>();
         try (Connection connection = DbUtils.connection();
              Statement statement = connection.createStatement();) {
-            ResultSet resultSet = statement.executeQuery("select * from foundation_investment order by date desc");
+            ResultSet resultSet = statement.executeQuery("select * from foundation_investment order by code desc, date desc");
             foundationInvestmentFromResultSet(foundationInvestments, resultSet);
             return foundationInvestments;
         } catch (Exception e) {
@@ -100,6 +100,7 @@ public class FoundationInvestmentDao {
         }
 
     }
+
     public List<FoundationInvestment> latestFoundationInvestments() {
         String sql = """
                 select *
@@ -131,7 +132,8 @@ public class FoundationInvestmentDao {
             Double dailyInvestAmount = resultSet.getDouble("daily_invest_amount");
             Double totalAmount = resultSet.getDouble("total_amount");
             Double totalProfit = resultSet.getDouble("total_profit");
-            boolean isEnabled = resultSet.getBoolean("is_enabled");
+            String actualGain = resultSet.getString("actualGain");
+            Boolean isEnabled = resultSet.getBoolean("is_enabled");
             FoundationInvestment foundationInvestment = new FoundationInvestment();
             foundationInvestment.setDate(date);
             foundationInvestment.setCode(code);
@@ -143,6 +145,7 @@ public class FoundationInvestmentDao {
             foundationInvestment.setTotalAmount(totalAmount);
             foundationInvestment.setTotalProfit(totalProfit);
             foundationInvestment.setEnabled(isEnabled);
+            foundationInvestment.setActualGain(actualGain);
             foundationInvestments.add(foundationInvestment);
         }
     }

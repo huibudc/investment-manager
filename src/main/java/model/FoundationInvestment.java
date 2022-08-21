@@ -12,6 +12,16 @@ public class FoundationInvestment {
     private Double totalProfit;
     private boolean isEnabled;
 
+    private String actualGain;
+
+    public String getActualGain() {
+        return actualGain;
+    }
+
+    public void setActualGain(String actualGain) {
+        this.actualGain = actualGain;
+    }
+
     public String getDate() {
         return date;
     }

@@ -13,7 +13,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import static utils.Utils.convertToYYYY_MM_DD;
+
+import static utils.DateUtils.today;
 
 
 @Slf4j
@@ -82,7 +83,7 @@ public class FoundationDao {
         List<Foundation> foundations = new ArrayList<>();
         try (Connection connection = DbUtils.connection();
              Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("select * from foundation");
+            ResultSet resultSet = statement.executeQuery("select * from foundation order by date desc ");
             while (resultSet.next()) {
                 Foundation foundation = getFoundation(resultSet);
                 foundations.add(foundation);
@@ -131,6 +132,30 @@ public class FoundationDao {
             return foundation;
         }
     }
+
+    public boolean isLatestData() {
+        try (Connection connection = DbUtils.connection();
+             Statement statement = connection.createStatement();) {
+            ResultSet resultSet = statement.executeQuery("select * from foundation where date=" + today());
+            return resultSet.next();
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error(e.getMessage());
+            return false;
+        }
+    }
+
+//    public List<String> dates() {
+//        try (Connection connection = DbUtils.connection();
+//             Statement statement = connection.createStatement();) {
+//            ResultSet resultSet = statement.executeQuery("select * from foundation where date=" + today());
+//            return resultSet.next();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            log.error(e.getMessage());
+//            return false;
+//        }
+//    }
 
     private Foundation getFoundation(ResultSet resultSet) throws SQLException, ParseException {
         String code = resultSet.getString("code");

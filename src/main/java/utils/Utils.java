@@ -15,6 +15,7 @@ public class Utils {
             .create();
 
     public final static Gson GSON = new GsonBuilder()
+            .setPrettyPrinting()
             .create();
 
     public static String convertToYYYY_MM_DD(String yy_mm_dd) throws ParseException {

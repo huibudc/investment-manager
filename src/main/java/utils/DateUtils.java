@@ -58,4 +58,12 @@ public class DateUtils {
         return SIMPLE_DATE_FORMAT.format(date);
     }
 
+    public static String nextDay(String date) throws ParseException {
+        Calendar calendar = Calendar.getInstance();
+        Date parseDate = SIMPLE_DATE_FORMAT.parse(date);
+        calendar.setTime(parseDate);
+        calendar.add(Calendar.DATE, +1);
+        Date nextDate = calendar.getTime();
+        return SIMPLE_DATE_FORMAT.format(nextDate);
+    }
 }
