@@ -20,7 +20,7 @@ export default function LineBarChart({ data }) {
     const chartInstance = echarts.init(chartRef.current);
     const option = {
       title: {
-        text: '盈利',
+        text: '',
       },
       tooltip: {
         trigger: 'axis',

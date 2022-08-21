@@ -58,7 +58,13 @@ export default function App() {
   return (
     <div>
       <div style={{ position: 'fixed' }}>
-        <span>代码或名称:</span>
+        <span>
+          <b>坚持, 不哭</b>
+          &#129315;&#129315; ==
+          {'>'}
+          {' '}
+          过滤:
+        </span>
         <input
           id="innerIpt2"
           style={{
@@ -72,15 +78,6 @@ export default function App() {
       <div>,</div>
       <div>
         <div style={{ display: 'flex' }}>
-          <p>关注基金</p>
-          <button type="button" className="collapse-button" onClick={() => setShouldShowFavourite(!shouldShowFavourite)}>{shouldShowFavourite ? '收起!' : '展开!'}</button>
-        </div>
-        {shouldShowFavourite
-          ? <FavouriteFoundations data={commenFilter(foundationFilter, favouriteFoundations)} />
-          : null}
-      </div>
-      <div>
-        <div style={{ display: 'flex' }}>
           <p>投资基金</p>
           <button type="button" className="collapse-button" onClick={() => setShouldShowInvestment(!shouldShowInvestment)}>{shouldShowInvestment ? '收起!' : '展开!'}</button>
         </div>
@@ -91,6 +88,15 @@ export default function App() {
           ? <FoundationInvestment data={commenFilter(foundationFilter, foundationInvestment)} />
           : null}
 
+      </div>
+      <div>
+        <div style={{ display: 'flex' }}>
+          <p>关注基金</p>
+          <button type="button" className="collapse-button" onClick={() => setShouldShowFavourite(!shouldShowFavourite)}>{shouldShowFavourite ? '收起!' : '展开!'}</button>
+        </div>
+        {shouldShowFavourite
+          ? <FavouriteFoundations data={commenFilter(foundationFilter, favouriteFoundations)} />
+          : null}
       </div>
       <div style={{
         marginTop: '20px',
