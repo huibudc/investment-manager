@@ -14,6 +14,16 @@ public class FoundationInvestment {
 
     private String actualGain;
 
+    private String profitRate;
+
+    public String getProfitRate() {
+        return profitRate;
+    }
+
+    public void setProfitRate(String profitRate) {
+        this.profitRate = profitRate;
+    }
+
     public String getActualGain() {
         return actualGain;
     }

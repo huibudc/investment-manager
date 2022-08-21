@@ -132,6 +132,7 @@ public class FoundationInvestmentDao {
             Double dailyInvestAmount = resultSet.getDouble("daily_invest_amount");
             Double totalAmount = resultSet.getDouble("total_amount");
             Double totalProfit = resultSet.getDouble("total_profit");
+            Double profitRate = resultSet.getDouble("profit_rate");
             String actualGain = resultSet.getString("actualGain");
             Boolean isEnabled = resultSet.getBoolean("is_enabled");
             FoundationInvestment foundationInvestment = new FoundationInvestment();
@@ -146,6 +147,7 @@ public class FoundationInvestmentDao {
             foundationInvestment.setTotalProfit(totalProfit);
             foundationInvestment.setEnabled(isEnabled);
             foundationInvestment.setActualGain(actualGain);
+            foundationInvestment.setProfitRate((profitRate * 100) + " %");
             foundationInvestments.add(foundationInvestment);
         }
     }
