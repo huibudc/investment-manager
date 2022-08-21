@@ -1,6 +1,8 @@
+/* eslint-disable max-len */
 /* eslint-disable react/jsx-filename-extension */
 import * as React from 'react';
 import './App.css';
+import * as _ from 'lodash';
 import FoundationData from './FoundationData';
 import FoundationInvestment from './FoundationInvestment';
 import Filter from './Filter';
@@ -55,6 +57,27 @@ export default function App() {
     return displayData;
   };
 
+  const onSelect = (e) => {
+    setFoundationFilter(e.target.value.split('-')[0]);
+  };
+
+  const selectOptionFn = () => {
+    if (foundationData === null || selectOptionFn === undefined) {
+      return [];
+    }
+    const selectOptions = [(<option key="defualt" value="" selected>please select</option>)];
+    const uniquMapping = _.uniq(foundationData.map((it) => `${it.code}-${it.name}`)).sort((a, b) => a.localeCompare(b));
+    uniquMapping.map((it) => (<option key={it} value={it}>{`${it}`}</option>)).forEach((it) => selectOptions.push(it));
+    return (
+      <select
+        className="form-select"
+        onChange={onSelect}
+      >
+        {selectOptions}
+      </select>
+    );
+  };
+
   return (
     <div>
       <div style={{ position: 'fixed' }}>
@@ -65,15 +88,7 @@ export default function App() {
           {' '}
           过滤:
         </span>
-        <input
-          id="innerIpt2"
-          style={{
-            margin: '5px',
-          }}
-          onChange={(e) => setFoundationFilter(e.target.value)}
-          value={foundationFilter}
-          placeholder="请输入代码或名称"
-        />
+        {selectOptionFn()}
       </div>
       <div>,</div>
       <div>
@@ -90,7 +105,7 @@ export default function App() {
 
       </div>
       <div>
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex', marginTop: '20px' }}>
           <p>关注基金</p>
           <button type="button" className="collapse-button" onClick={() => setShouldShowFavourite(!shouldShowFavourite)}>{shouldShowFavourite ? '收起!' : '展开!'}</button>
         </div>
