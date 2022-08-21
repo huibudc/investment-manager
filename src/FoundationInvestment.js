@@ -15,6 +15,7 @@ export default function FoundationInvestment({ data }) {
       <td>{row.commission}</td>
       <td>{row.totalAmount}</td>
       <td className={row.totalProfit > 0 ? 'green' : 'red'}>{row.totalProfit}</td>
+      <td>{row.actualGain}</td>
       <td>{row.isEnabled ? '正常' : '暂停'}</td>
     </tr>
   )) : null;
@@ -34,6 +35,7 @@ export default function FoundationInvestment({ data }) {
           <td>买入费率</td>
           <td>总额</td>
           <td>总利润</td>
+          <td>日涨幅</td>
           <td>是否执行</td>
         </tr>
       </thead>
